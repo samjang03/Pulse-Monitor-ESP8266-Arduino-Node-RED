@@ -1,0 +1,565 @@
+[
+    {
+        "id": "5e04b9dd.81c658",
+        "type": "tab",
+        "label": "Pulse System Dashboard",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "98d00e19.a6762",
+        "type": "mqtt in",
+        "z": "5e04b9dd.81c658",
+        "name": "",
+        "topic": "esp8266/pulse",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "6ec4dcef.913b24",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 200,
+        "y": 140,
+        "wires": [
+            [
+                "07048bb50e4963b7",
+                "89bc352.e41bac8",
+                "c2d79739551a957d",
+                "6742e667197b285d",
+                "26adf79e4bd58174"
+            ]
+        ]
+    },
+    {
+        "id": "89bc352.e41bac8",
+        "type": "ui_gauge",
+        "z": "5e04b9dd.81c658",
+        "name": "Pulse Gauge",
+        "group": "92a9cd27.99b9d",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Pulse",
+        "label": "bpm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00db04",
+            "#0082e6",
+            "#d60000"
+        ],
+        "seg1": "60",
+        "seg2": "90",
+        "diff": false,
+        "className": "",
+        "x": 430,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "07048bb50e4963b7",
+        "type": "debug",
+        "z": "5e04b9dd.81c658",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "c2d79739551a957d",
+        "type": "GSheet",
+        "z": "5e04b9dd.81c658",
+        "creds": "0c94c1e5c1104a81",
+        "method": "append",
+        "action": "",
+        "sheet": "1NPYHfVOyI39Bto-3BaVHnOExjwWDUEpUU0Ox8rCt7SA",
+        "cells": "Sheet1!A2:A1000",
+        "flatten": false,
+        "name": "",
+        "x": 530,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6742e667197b285d",
+        "type": "ui_chart",
+        "z": "5e04b9dd.81c658",
+        "name": "",
+        "group": "92a9cd27.99b9d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Pulse Chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 450,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dfaffcb89ee28b39",
+        "type": "mysql",
+        "z": "5e04b9dd.81c658",
+        "mydb": "61e39e0e1c045158",
+        "name": "MySQL",
+        "x": 840,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "26adf79e4bd58174",
+        "type": "function",
+        "z": "5e04b9dd.81c658",
+        "name": "insertValue",
+        "func": "msg.topic = \"INSERT INTO pulse (timestamp, pulse_value) VALUES (NOW(), ?)\";\nmsg.payload = [msg.payload];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 200,
+        "wires": [
+            [
+                "dfaffcb89ee28b39"
+            ]
+        ]
+    },
+    {
+        "id": "e2bd0411aec73dd6",
+        "type": "telegram command",
+        "z": "5e04b9dd.81c658",
+        "name": "/start",
+        "command": "/start",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "a1d0ca1cd79ef6d4",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 170,
+        "y": 400,
+        "wires": [
+            [
+                "bfd6cf4a8f7b1a47"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "8d598188c155af6c",
+        "type": "telegram command",
+        "z": "5e04b9dd.81c658",
+        "name": "/on",
+        "command": "/on",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "a1d0ca1cd79ef6d4",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 170,
+        "y": 480,
+        "wires": [
+            [
+                "98ebfa92d3c32f8d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c4ed6eee469cf1a5",
+        "type": "telegram command",
+        "z": "5e04b9dd.81c658",
+        "name": "/off",
+        "command": "/off",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "a1d0ca1cd79ef6d4",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 170,
+        "y": 540,
+        "wires": [
+            [
+                "83ee1e03d10dea35"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "388944d37ff98b6b",
+        "type": "telegram command",
+        "z": "5e04b9dd.81c658",
+        "name": "/view",
+        "command": "/view",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "a1d0ca1cd79ef6d4",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 170,
+        "y": 620,
+        "wires": [
+            [
+                "7c16319da6bae463"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "bfd6cf4a8f7b1a47",
+        "type": "function",
+        "z": "5e04b9dd.81c658",
+        "name": "Set Start msg",
+        "func": "msg.payload.content = 'Вітаю! Цей бот допоможе вам відстежувати ваш пульс за допомогою датчика пульсу.';\nmsg.payload.content += '\\n/Під час моніторингу пульсу ви зможете бачити поточне значення вашого пульсу в ударах на хвилину (BPM). Також ви отримуватимете сповіщення, якщо ваш пульс буде вищим або нижчим за нормальний діапазон.';\nmsg.payload.content += '\\n\\n/start - Розпочати моніторинг';\nmsg.payload.content += '\\n/on - Увімкнути сповіщення';\nmsg.payload.content += '\\n/off - Вимкнути сповіщення';\nmsg.payload.content += '\\n/view - Частота серцебитття в режимі реального часу';\n\nmsg.payload.chatId = 935425270;\nmsg.payload.type = \"message\";\n\nreturn [msg];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 400,
+        "wires": [
+            [
+                "6c8987a89ab76624"
+            ]
+        ]
+    },
+    {
+        "id": "6c8987a89ab76624",
+        "type": "telegram sender",
+        "z": "5e04b9dd.81c658",
+        "name": "Send /start response ",
+        "bot": "a1d0ca1cd79ef6d4",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 620,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4451f1da74a3254f",
+        "type": "mqtt out",
+        "z": "5e04b9dd.81c658",
+        "name": "",
+        "topic": "esp8266/notifications",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "6ec4dcef.913b24",
+        "x": 700,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "7c16319da6bae463",
+        "type": "function",
+        "z": "5e04b9dd.81c658",
+        "name": "Set View msg",
+        "func": "msg.payload.content = 'Відстеження серцебиття за графіком, круговою діаграмою:';\nmsg.payload.content += '\\nhttp://127.0.0.1:1880/ui/#!/0?socketid=kT9NZCHYYkyEruRtAAAB';\nmsg.payload.content += '\\n\\nТаблиця в Google Sheets:';\nmsg.payload.content += '\\nhttps://docs.google.com/spreadsheets/d/1NPYHfVOyI39Bto-3BaVHnOExjwWDUEpUU0Ox8rCt7SA/edit#gid=0';\n\n// msg.payload.options = opts;\nmsg.payload.chatId = 935425270;\nmsg.payload.type = \"message\";\n\nreturn [msg];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 620,
+        "wires": [
+            [
+                "22c3ddf6a11b3c61"
+            ]
+        ]
+    },
+    {
+        "id": "22c3ddf6a11b3c61",
+        "type": "telegram sender",
+        "z": "5e04b9dd.81c658",
+        "name": "Send /view response",
+        "bot": "a1d0ca1cd79ef6d4",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 700,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "98ebfa92d3c32f8d",
+        "type": "function",
+        "z": "5e04b9dd.81c658",
+        "name": "Set notifications ON",
+        "func": "msg.payload = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 480,
+        "wires": [
+            [
+                "4451f1da74a3254f",
+                "c99816bae71d05ca"
+            ]
+        ]
+    },
+    {
+        "id": "83ee1e03d10dea35",
+        "type": "function",
+        "z": "5e04b9dd.81c658",
+        "name": "Set notifications OFF",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 540,
+        "wires": [
+            [
+                "4451f1da74a3254f",
+                "c99816bae71d05ca"
+            ]
+        ]
+    },
+    {
+        "id": "c99816bae71d05ca",
+        "type": "function",
+        "z": "5e04b9dd.81c658",
+        "name": "Set notifications msg",
+        "func": "let notifications = msg.payload;\n\nmsg.payload = {};\nmsg.payload.content = 'Сповіщення ';\n\nif (notifications === true) {\n    msg.payload.content += 'увімкнені\\n';\n} else if (notifications === false){\n    msg.payload.content += 'вимкнені\\n';\n}\n\nmsg.payload.chatId = 935425270;\nmsg.payload.type = \"message\";\n\nreturn [msg];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 480,
+        "wires": [
+            [
+                "dd8dc3a7f478c963"
+            ]
+        ]
+    },
+    {
+        "id": "dd8dc3a7f478c963",
+        "type": "telegram sender",
+        "z": "5e04b9dd.81c658",
+        "name": "Send notifications response ",
+        "bot": "a1d0ca1cd79ef6d4",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 960,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "719cfe30fdd5c6c5",
+        "type": "mqtt in",
+        "z": "5e04b9dd.81c658",
+        "name": "",
+        "topic": "esp8266/pulse_alarm",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "6ec4dcef.913b24",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 740,
+        "wires": [
+            [
+                "eed82cfc699637d5"
+            ]
+        ]
+    },
+    {
+        "id": "eed82cfc699637d5",
+        "type": "function",
+        "z": "5e04b9dd.81c658",
+        "name": "function 5",
+        "func": "let bpm = msg.payload;\nmsg.payload = {};\n\nif (bpm <= 60) \n    msg.payload.content = 'Пульс нижче норми: ' + bpm;\n\nif (bpm >= 90)\n    msg.payload.content = 'Пульс вище норми: ' + bpm;\n\nmsg.payload.chatId = 935425270;\nmsg.payload.type = \"message\";\n\nreturn [msg];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 740,
+        "wires": [
+            [
+                "0eb9910f8f24a80e"
+            ]
+        ]
+    },
+    {
+        "id": "0eb9910f8f24a80e",
+        "type": "telegram sender",
+        "z": "5e04b9dd.81c658",
+        "name": "Pulse alarm",
+        "bot": "a1d0ca1cd79ef6d4",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 670,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6ec4dcef.913b24",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "15",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "92a9cd27.99b9d",
+        "type": "ui_group",
+        "name": "Pulse",
+        "tab": "6f670e80.d2e0f",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0c94c1e5c1104a81",
+        "type": "gauth",
+        "name": "pulse-monitor-bpm@pulse-monitor-425206.iam.gserviceaccount.com"
+    },
+    {
+        "id": "61e39e0e1c045158",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "pulse_monitor",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "a1d0ca1cd79ef6d4",
+        "type": "telegram bot",
+        "botname": "Pulse Monitor",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "6f670e80.d2e0f",
+        "type": "ui_tab",
+        "z": "5e04b9dd.81c658",
+        "name": "Dashboard",
+        "icon": "dashboard"
+    }
+]
